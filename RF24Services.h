@@ -18,19 +18,18 @@ class RF24Services
 {
   public:
     RF24Services(RF24 &s);
-    RF24Services(RF24 &s, byte irq_pin);
+    RF24Services(RF24 &s, int8_t irq_pin);
     void addService(void (*callback)(uint8_t *data, uint8_t len), uint8_t sid);
     void setDefaultService(void (*callback)(uint8_t *data, uint8_t len));
     void doWork();
-    inline void setIrqPin(byte irq_pin);
     inline bool IrqStatus();
   private:  
     void handlePacket(uint8_t buffer[], uint8_t len);
     RF24& _rf; 
-    byte _irq_pin;
+    int8_t _irq_pin;
     void (*service_ptrs[SERVICES_COUNT])(uint8_t *data, uint8_t len);
     void (*default_service)(uint8_t *data, uint8_t len);
-    byte service_ids[SERVICES_COUNT];
+    uint8_t service_ids[SERVICES_COUNT];
     uint8_t service_cnt=0;
     uint8_t buffer[BUFFER_LENGTH];
 };

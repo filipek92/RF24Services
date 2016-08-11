@@ -12,9 +12,10 @@ RF24Services::RF24Services(RF24 &rf): _rf(rf)
   default_service = 0;
 }
 
-RF24Services::RF24Services(RF24 &rf, byte irq_pin): _rf(rf)
+RF24Services::RF24Services(RF24 &rf, int8_t irq_pin): _rf(rf)
 {
   _irq_pin = irq_pin;
+  pinMode(_irq_pin, INPUT);
   default_service = 0;
 }
 
@@ -55,11 +56,6 @@ void RF24Services::handlePacket(uint8_t buffer[], uint8_t len){
     }
   }
   if(default_service!=0) default_service(buffer, len);
-}
-
-
-inline void RF24Services::setIrqPin(byte irq_pin){
-  _irq_pin = irq_pin;
 }
 
 inline bool RF24Services::IrqStatus(){
