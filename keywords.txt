@@ -12,8 +12,9 @@ RF24Services KEYWORD1
 addService	KEYWORD2
 doWork	KEYWORD2
 setDefaultService  KEYWORD2
-setIrqPin  KEYWORD2
+setActCallbacks KEYWORD2
 IrqStatus  KEYWORD2
+send KEYWORD2
 #######################################
 # Instances (KEYWORD2)
 #######################################

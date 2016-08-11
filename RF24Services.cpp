@@ -31,6 +31,11 @@ void RF24Services::setDefaultService(void (*callback)(uint8_t *data, uint8_t len
   default_service = callback;
 }
 
+void RF24Services::setActCallbacks(void (*active)(), void (*inactive)()){
+  active_callback = active;
+  inactive_callback = inactive;
+}
+
 void RF24Services::doWork()
 {
   if(!IrqStatus()) return;
@@ -38,6 +43,7 @@ void RF24Services::doWork()
   uint8_t pipe;
   _rf.whatHappened(tx,fail,rx);
   if(rx){
+    if(active_callback) active_callback();
     while ( _rf.available(&pipe) )
     {
       uint8_t len = _rf.getDynamicPayloadSize();
@@ -45,6 +51,7 @@ void RF24Services::doWork()
       _rf.read(buffer, len);
       handlePacket(buffer, len);
     }
+    if(inactive_callback) inactive_callback();
   }
 }
 
@@ -61,4 +68,15 @@ void RF24Services::handlePacket(uint8_t buffer[], uint8_t len){
 inline bool RF24Services::IrqStatus(){
   if(_irq_pin==NO_IRQ) return true;
   return !digitalRead(_irq_pin);
+}
+
+bool RF24Services::send(uint64_t pipe, void *data, uint8_t len){
+  if(active_callback) active_callback();
+  boolean status = false;
+  _rf.stopListening();
+  _rf.openWritingPipe(pipe);
+  status = _rf.write(data, len);
+  _rf.startListening();
+  if(inactive_callback) inactive_callback();
+  return status;
 }
