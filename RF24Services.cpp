@@ -38,7 +38,8 @@ void RF24Services::setActCallbacks(void (*active)(), void (*inactive)()){
 
 void RF24Services::doWork()
 {
-  if(!IrqStatus()) return;
+  if(!irqStatus()) return;
+  rx_time=millis();
   bool tx,fail,rx;
   uint8_t pipe;
   _rf.whatHappened(tx,fail,rx);
@@ -65,7 +66,11 @@ void RF24Services::handlePacket(uint8_t buffer[], uint8_t len){
   if(default_service!=0) default_service(buffer, len);
 }
 
-inline bool RF24Services::IrqStatus(){
+unsigned long RF24Services::rxTime(){
+  return rx_time;
+}
+
+inline bool RF24Services::irqStatus(){
   if(_irq_pin==NO_IRQ) return true;
   return !digitalRead(_irq_pin);
 }

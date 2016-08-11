@@ -13,7 +13,8 @@ addService	KEYWORD2
 doWork	KEYWORD2
 setDefaultService  KEYWORD2
 setActCallbacks KEYWORD2
-IrqStatus  KEYWORD2
+irqStatus  KEYWORD2
+rxTime KEYWORD2
 send KEYWORD2
 #######################################
 # Instances (KEYWORD2)

@@ -24,7 +24,8 @@ class RF24Services
     void setActCallbacks(void (*active)(), void (*inactive)());
     void doWork();
     bool send(uint64_t pipe, void *data, uint8_t len);
-    inline bool IrqStatus();
+    inline bool irqStatus();
+    unsigned long rxTime();
   private:  
     void handlePacket(uint8_t buffer[], uint8_t len);
     RF24& _rf; 
@@ -36,6 +37,7 @@ class RF24Services
     uint8_t service_ids[SERVICES_COUNT];
     uint8_t service_cnt=0;
     uint8_t buffer[BUFFER_LENGTH];
+    unsigned long rx_time;
 };
 
 #endif
