@@ -23,7 +23,8 @@ class RF24Services
     void setDefaultService(void (*callback)(uint8_t *data, uint8_t len));
     void setActCallbacks(void (*active)(), void (*inactive)());
     void doWork();
-    bool send(uint64_t pipe, void *data, uint8_t len);
+    bool send(uint8_t pipe, void *data, uint8_t len);
+    void setBaseAddress(uint64_t base);
     inline bool irqStatus();
     unsigned long rxTime();
   private:  
@@ -37,6 +38,7 @@ class RF24Services
     uint8_t service_ids[SERVICES_COUNT];
     uint8_t service_cnt=0;
     uint8_t buffer[BUFFER_LENGTH];
+    uint64_t base_adr;
     unsigned long rx_time;
 };
 

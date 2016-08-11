@@ -36,6 +36,10 @@ void RF24Services::setActCallbacks(void (*active)(), void (*inactive)()){
   inactive_callback = inactive;
 }
 
+void RF24Services::setBaseAddress(uint64_t base){
+  base_adr = base;
+}
+
 void RF24Services::doWork()
 {
   if(!irqStatus()) return;
@@ -75,11 +79,11 @@ inline bool RF24Services::irqStatus(){
   return !digitalRead(_irq_pin);
 }
 
-bool RF24Services::send(uint64_t pipe, void *data, uint8_t len){
+bool RF24Services::send(uint8_t pipe, void *data, uint8_t len){
   if(active_callback) active_callback();
   boolean status = false;
   _rf.stopListening();
-  _rf.openWritingPipe(pipe);
+  _rf.openWritingPipe(pipe+base_adr);
   status = _rf.write(data, len);
   _rf.startListening();
   if(inactive_callback) inactive_callback();
