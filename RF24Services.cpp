@@ -27,7 +27,7 @@ void RF24Services::addService(void (*callback)(uint8_t *data, uint8_t len), uint
 void RF24Services::doWork()
 {
   unsigned long t = millis();
-  if(((t - rxTime) > lostTime) && (connectionState = CONNECTED)){
+  if(((t - rxTime) > lostTime) && (connectionState == CONNECTED)){
     connectionState = LOST;
     if(lostCallback) lostCallback();
   }
