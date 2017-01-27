@@ -7,7 +7,7 @@
 #define RF24Services_h
 
 #define SERVICES_COUNT  20
-#define BUFFER_LENGTH   33
+#define RF_BUFFER_LENGTH   33
 #define NO_IRQ          -1
 #define CONNECTED       true
 #define LOST            false
@@ -53,6 +53,6 @@ class RF24Services
     void (*service_ptrs[SERVICES_COUNT])(uint8_t *data, uint8_t len);
     uint8_t service_ids[SERVICES_COUNT];
     uint8_t service_cnt=0;
-    uint8_t buffer[BUFFER_LENGTH];
+    uint8_t buffer[RF_BUFFER_LENGTH];
 };
 #endif
